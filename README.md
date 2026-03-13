@@ -1,6 +1,6 @@
 # Meridian Capital Partners — Homepage
 
-Static landing page for [meridiancp.com](https://meridiancp.com).
+Static landing page for [meridiancap.org](https://meridiancap.org).
 
 ## Overview
 
