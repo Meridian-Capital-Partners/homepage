@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meridian Capital Partners</title>
+  <meta name="description" content="Infrastructure for Justice at Scale. Crypto asset recovery, blockchain forensics, and global enforcement.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ──────────────────────────────────────────────────── */
+    :root {
+      --black:   #0D0D0D;
+      --dark:    #1A1A1A;
+      --panel:   #222222;
+      --border:  #2E2E2E;
+      --red:     #C41E3A;
+      --white:   #FFFFFF;
+      --gray-lt: #CCCCCC;
+      --gray:    #888888;
+      --gray-dk: #555555;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      border-left: 3px solid var(--red);
+    }
+
+    /* ── UTILITIES ───────────────────────────────────────────────── */
+    .label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    .red-rule {
+      width: 52px;
+      height: 2px;
+      background: var(--red);
+    }
+
+    .section-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── NAV ─────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 3px; /* account for body border */
+      right: 0;
+      z-index: 100;
+      background: rgba(13, 13, 13, 0.94);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 80px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+    }
+
+    .nav-logo-sep {
+      width: 1px;
+      height: 36px;
+      background: var(--border);
+    }
+
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .nav-logo-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .nav-logo-sub {
+      font-size: 8.5px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gray);
+      line-height: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      border: 1px solid var(--red);
+      padding: 9px 20px;
+      transition: background 0.15s;
+    }
+
+    .nav-cta:hover { background: var(--red); }
+
+    /* ── HERO ────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-top: 64px;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 120px 80px 100px;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      margin-bottom: 32px;
+    }
+
+    .hero-headline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(52px, 7vw, 88px);
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.0;
+      margin-bottom: 36px;
+      max-width: 760px;
+    }
+
+    .hero-rule {
+      width: 52px;
+      height: 2px;
+      background: var(--red);
+      margin-bottom: 32px;
+    }
+
+    .hero-sub {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--red);
+      margin-bottom: 56px;
+      line-height: 1.5;
+    }
+
+    .hero-disciplines {
+      display: flex;
+      gap: 0;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 80px;
+    }
+
+    .hero-disciplines span {
+      margin: 0 12px;
+      color: var(--gray-dk);
+    }
+
+    .hero-disciplines span:first-child { margin-left: 0; }
+
+    .hero-stat-bar {
+      border-top: 1px solid var(--border);
+      padding-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+
+    .hero-stat {
+      border-left: 1px solid var(--border);
+      padding-left: 28px;
+    }
+
+    .hero-stat:first-child {
+      border-left: none;
+      padding-left: 0;
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 44px;
+      font-weight: 400;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-desc {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray);
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+    }
+
+    /* ── MISSION BAND ────────────────────────────────────────────── */
+    .mission-band {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 96px 0;
+    }
+
+    .mission-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .mission-left .label {
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .mission-headline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 38px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+
+    .mission-rule {
+      width: 52px;
+      height: 2px;
+      background: var(--red);
+      margin-bottom: 28px;
+    }
+
+    .mission-body {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-lt);
+      line-height: 1.8;
+    }
+
+    .mission-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .mission-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 24px 28px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .mission-card-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 32px;
+      color: var(--red);
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .mission-card-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .mission-card-body {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    /* ── CAPABILITIES ────────────────────────────────────────────── */
+    .capabilities {
+      padding: 100px 0;
+    }
+
+    .cap-header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 80px;
+      margin-bottom: 60px;
+    }
+
+    .cap-header .label { margin-bottom: 16px; display: block; }
+
+    .cap-header-headline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 38px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.15;
+      max-width: 520px;
+    }
+
+    .cap-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .cap-division {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      padding: 44px 48px;
+    }
+
+    .cap-division-label {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-dk);
+      margin-bottom: 8px;
+    }
+
+    .cap-division-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 28px;
+      line-height: 1.15;
+    }
+
+    .cap-rule {
+      width: 44px;
+      height: 2px;
+      background: var(--red);
+      margin-bottom: 32px;
+    }
+
+    .cap-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .cap-list li {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--gray-lt);
+      line-height: 1.55;
+    }
+
+    .cap-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 16px;
+      height: 1px;
+      background: var(--red);
+      margin-top: 9px;
+    }
+
+    /* ── DIFFERENTIATOR ──────────────────────────────────────────── */
+    .differentiator {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 100px 0;
+    }
+
+    .diff-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+
+    .diff-inner .label { margin-bottom: 20px; display: block; }
+
+    .diff-headline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 38px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 60px;
+      max-width: 620px;
+    }
+
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .diff-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 36px 32px;
+    }
+
+    .diff-card-label {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-dk);
+      margin-bottom: 16px;
+    }
+
+    .diff-card-headline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 20px;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .diff-card-body {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    .diff-card-em {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 12px;
+      color: var(--red);
+      margin-top: 16px;
+    }
+
+    /* ── MODEL BAND ──────────────────────────────────────────────── */
+    .model-band {
+      padding: 100px 0;
+    }
+
+    .model-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+
+    .model-inner .label { margin-bottom: 20px; display: block; }
+
+    .model-headline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 38px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 60px;
+      max-width: 520px;
+    }
+
+    .model-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+    }
+
+    .model-step {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      padding: 32px 28px;
+    }
+
+    .model-step.active {
+      border-color: var(--red);
+    }
+
+    .model-step-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 40px;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .model-step-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .model-step.active .model-step-title {
+      color: var(--red);
+    }
+
+    .model-step-body {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    /* ── CALLOUT ─────────────────────────────────────────────────── */
+    .callout {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 100px 0;
+    }
+
+    .callout-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .callout-big {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 72px;
+      font-weight: 400;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .callout-big-sub {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-lt);
+      line-height: 1.6;
+    }
+
+    .callout-right-rule {
+      width: 1px;
+      height: 100%;
+      background: var(--border);
+    }
+
+    .callout-right {
+      border-left: 1px solid var(--border);
+      padding-left: 60px;
+    }
+
+    .callout-italic {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 28px;
+      color: var(--gray);
+      line-height: 1.4;
+      margin-bottom: 32px;
+    }
+
+    .callout-body {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-lt);
+      line-height: 1.8;
+    }
+
+    /* ── CONTACT ─────────────────────────────────────────────────── */
+    .contact {
+      background: var(--dark);
+      padding: 100px 0;
+    }
+
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: start;
+    }
+
+    .contact-left .label { margin-bottom: 20px; display: block; }
+
+    .contact-headline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 38px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+
+    .contact-rule {
+      width: 52px;
+      height: 2px;
+      background: var(--red);
+      margin-bottom: 24px;
+    }
+
+    .contact-body {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-lt);
+      line-height: 1.8;
+    }
+
+    .contact-right {
+      padding-top: 8px;
+    }
+
+    .contact-item {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .contact-item:first-child { padding-top: 0; }
+
+    .contact-item-label {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-dk);
+    }
+
+    .contact-item-value {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-lt);
+    }
+
+    .contact-item-value a {
+      color: var(--gray-lt);
+      text-decoration: none;
+    }
+
+    .contact-item-value a:hover { color: var(--white); }
+
+    .contact-btn {
+      display: inline-block;
+      margin-top: 36px;
+      padding: 14px 32px;
+      border: 1px solid var(--red);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .contact-btn:hover { background: var(--red); }
+
+    /* ── FOOTER ──────────────────────────────────────────────────── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footer-logo-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .footer-meta {
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--gray-dk);
+      letter-spacing: 0.08em;
+      text-align: right;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .footer-links a {
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-dk);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover { color: var(--gray); }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .section-wrap,
+      .nav-inner,
+      .hero-inner,
+      .mission-inner,
+      .cap-header,
+      .cap-grid,
+      .diff-inner,
+      .model-inner,
+      .callout-inner,
+      .contact-inner,
+      .footer-inner {
+        padding-left: 28px;
+        padding-right: 28px;
+      }
+
+      .mission-inner,
+      .callout-inner,
+      .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+
+      .cap-grid { grid-template-columns: 1fr; }
+
+      .diff-grid { grid-template-columns: 1fr; }
+
+      .model-row { grid-template-columns: 1fr 1fr; }
+
+      .callout-right { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 40px; }
+
+      .hero-stat-bar { grid-template-columns: 1fr; gap: 24px; }
+
+      .hero-stat { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 20px; }
+
+      .nav-links { display: none; }
+
+      .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <svg width="32" height="44" viewBox="0 0 32 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="22" r="13" stroke="#C41E3A" stroke-width="1.2"/>
+          <line x1="16" y1="0" x2="16" y2="44" stroke="#C41E3A" stroke-width="1.2"/>
+        </svg>
+        <div class="nav-logo-sep"></div>
+        <div class="nav-logo-text">
+          <span class="nav-logo-name">Meridian</span>
+          <span class="nav-logo-sub">Capital Partners</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#capabilities">Capabilities</a></li>
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#model">Model</a></li>
+        <li><a href="#contact" class="nav-cta">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">
+        <span class="label">Asset Recovery · Blockchain Forensics · Global Enforcement</span>
+      </div>
+      <h1 class="hero-headline">Infrastructure<br>for Justice<br>at Scale</h1>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">We find it. We freeze it. We bring it home.</p>
+      <div class="hero-disciplines">
+        Asset Recovery
+        <span>·</span>
+        Blockchain Forensics
+        <span>·</span>
+        Global Enforcement
+        <span>·</span>
+        40+ Jurisdictions
+      </div>
+      <div class="hero-stat-bar">
+        <div class="hero-stat">
+          <div class="stat-num">$75B</div>
+          <div class="stat-desc">Stolen from Americans<br>through crypto fraud</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">40+</div>
+          <div class="stat-desc">Jurisdictions covered<br>through enforcement network</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">$0</div>
+          <div class="stat-desc">Returned to victims —<br>until now</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MISSION ───────────────────────────────────────────────────── -->
+  <section class="mission-band" id="about">
+    <div class="mission-inner">
+      <div class="mission-left">
+        <span class="label">Who We Are</span>
+        <h2 class="mission-headline">[Placeholder:<br>Mission Statement]</h2>
+        <div class="mission-rule"></div>
+        <p class="mission-body">
+          [Placeholder: 2–3 sentences on MCP's founding purpose, the gap in the market, and the integrated approach that separates MCP from analytics-only firms.]
+        </p>
+      </div>
+      <div class="mission-right">
+        <div class="mission-card">
+          <div class="mission-card-num">01</div>
+          <div>
+            <div class="mission-card-title">Find</div>
+            <div class="mission-card-body">[Placeholder: On-chain tracing and OSINT to locate stolen assets across wallets, exchanges, and chains.]</div>
+          </div>
+        </div>
+        <div class="mission-card">
+          <div class="mission-card-num">02</div>
+          <div>
+            <div class="mission-card-title">Freeze</div>
+            <div class="mission-card-body">[Placeholder: Cross-jurisdictional legal mechanisms to secure assets before they move again.]</div>
+          </div>
+        </div>
+        <div class="mission-card">
+          <div class="mission-card-num">03</div>
+          <div>
+            <div class="mission-card-title">Return</div>
+            <div class="mission-card-body">[Placeholder: Enforcement coordination and victim restitution across civil and criminal channels.]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CAPABILITIES ──────────────────────────────────────────────── -->
+  <section class="capabilities" id="capabilities">
+    <div class="cap-header">
+      <span class="label">Capabilities</span>
+      <h2 class="cap-header-headline">[Placeholder: Capabilities Header]</h2>
+    </div>
+    <div class="cap-grid">
+      <div class="cap-division">
+        <div class="cap-division-label">Division I</div>
+        <h3 class="cap-division-title">Global Intelligence</h3>
+        <div class="cap-rule"></div>
+        <ul class="cap-list">
+          <li>Blockchain forensics — on-chain analysis, mixer de-anonymization, cross-chain tracing</li>
+          <li>OSINT operations — dark web monitoring, entity mapping</li>
+          <li>Threat intelligence — syndicate profiling, criminal network mapping</li>
+          <li>Institutional products — IC-standard assessments, target packages, evidentiary documentation</li>
+        </ul>
+      </div>
+      <div class="cap-division">
+        <div class="cap-division-label">Division II</div>
+        <h3 class="cap-division-title">Special Services</h3>
+        <div class="cap-rule"></div>
+        <ul class="cap-list">
+          <li>ISR platforms — proprietary surveillance software, real-time tracking, POL analysis</li>
+          <li>Counter-terror finance — CTF software, sanctions screening, network interdiction</li>
+          <li>Enforcement liaison — DOJ/FBI/HSI coordination, INTERPOL, MLAT execution</li>
+          <li>Recovery operations — civil asset recovery, class actions, victim restitution</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DIFFERENTIATOR ────────────────────────────────────────────── -->
+  <section class="differentiator" id="approach">
+    <div class="diff-inner">
+      <span class="label">Why MCP</span>
+      <h2 class="diff-headline">[Placeholder: Differentiator Header]</h2>
+      <div class="diff-grid">
+        <div class="diff-card">
+          <div class="diff-card-label">Analytics Firms</div>
+          <h3 class="diff-card-headline">Identify.<br>Stop there.</h3>
+          <p class="diff-card-body">[Placeholder: Description of analytics-only firms — locate wallets, can't litigate, can't seize. Report goes in a drawer.]</p>
+          <div class="diff-card-em">Dead end.</div>
+        </div>
+        <div class="diff-card">
+          <div class="diff-card-label">Law Firms</div>
+          <h3 class="diff-card-headline">Litigate.<br>Can't trace.</h3>
+          <p class="diff-card-body">[Placeholder: Description of legal-only firms — strong in court, no forensics capability, can't trace funds without third parties.]</p>
+          <div class="diff-card-em">Incomplete chain.</div>
+        </div>
+        <div class="diff-card" style="background: #1A1A1A; border-color: var(--red);">
+          <div class="diff-card-label" style="color: var(--red);">Meridian Capital Partners</div>
+          <h3 class="diff-card-headline">One machine.<br>Full chain.</h3>
+          <p class="diff-card-body" style="color: var(--gray-lt);">[Placeholder: MCP owns every link — forensics, intelligence, legal enforcement, and victim recovery — in a single integrated operation.]</p>
+          <div class="diff-card-em">Blockchain to courtroom to victim.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ENGAGEMENT MODEL ───────────────────────────────────────────── -->
+  <section class="model-band" id="model">
+    <div class="model-inner">
+      <span class="label">Engagement Model</span>
+      <h2 class="model-headline">[Placeholder: Engagement Model Header]</h2>
+      <div class="model-row">
+        <div class="model-step">
+          <div class="model-step-num">01</div>
+          <div class="model-step-title">Intake</div>
+          <div class="model-step-body">[Placeholder: Initial case assessment, victim documentation, scope confirmation.]</div>
+        </div>
+        <div class="model-step">
+          <div class="model-step-num">02</div>
+          <div class="model-step-title">Investigate</div>
+          <div class="model-step-body">[Placeholder: Blockchain tracing, OSINT, syndicate mapping, fund location.]</div>
+        </div>
+        <div class="model-step">
+          <div class="model-step-num">03</div>
+          <div class="model-step-title">Enforce</div>
+          <div class="model-step-body">[Placeholder: Legal filing, freeze orders, multi-jurisdictional coordination.]</div>
+        </div>
+        <div class="model-step">
+          <div class="model-step-num">04</div>
+          <div class="model-step-title">Recover</div>
+          <div class="model-step-body">[Placeholder: Asset seizure, restitution process, victim disbursement.]</div>
+        </div>
+        <div class="model-step active">
+          <div class="model-step-num">05</div>
+          <div class="model-step-title">Retain</div>
+          <div class="model-step-body">15–25% success fee. No recovery, no fee. Aligned incentives.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STAT CALLOUT ──────────────────────────────────────────────── -->
+  <section class="callout">
+    <div class="callout-inner">
+      <div class="callout-left">
+        <div class="stat-num" style="font-family:'Playfair Display',serif; font-size:80px; color:var(--red); line-height:1; margin-bottom:16px;">$75B</div>
+        <div class="callout-big-sub">stolen from Americans through pig butchering and related crypto fraud schemes.</div>
+      </div>
+      <div class="callout-right">
+        <p class="callout-italic">Zero returned to victims.<br>We change that.</p>
+        <p class="callout-body">[Placeholder: 1–2 sentences on the scale of the problem and MCP's mission in context.]</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ───────────────────────────────────────────────────── -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <div class="contact-left">
+        <span class="label">Contact</span>
+        <h2 class="contact-headline">[Placeholder:<br>Contact Header]</h2>
+        <div class="contact-rule"></div>
+        <p class="contact-body">
+          [Placeholder: Who should reach out and why — law firms, financial institutions, government agencies, NGOs, individual victims.]
+        </p>
+        <a href="mailto:contact@meridiancp.com" class="contact-btn">Get in Touch</a>
+      </div>
+      <div class="contact-right">
+        <div class="contact-item">
+          <div class="contact-item-label">Website</div>
+          <div class="contact-item-value"><a href="https://meridiancp.com">meridiancp.com</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value"><a href="mailto:contact@meridiancp.com">contact@meridiancp.com</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Focus Region</div>
+          <div class="contact-item-value">Southeast Asia · Transnational Crypto Fraud</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Jurisdiction Coverage</div>
+          <div class="contact-item-value">40+ Countries</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <svg width="24" height="34" viewBox="0 0 24 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="17" r="10" stroke="#C41E3A" stroke-width="1.1"/>
+          <line x1="12" y1="0" x2="12" y2="34" stroke="#C41E3A" stroke-width="1.1"/>
+        </svg>
+        <span class="footer-logo-name">Meridian Capital Partners</span>
+      </div>
+      <div class="footer-links">
+        <a href="#capabilities">Capabilities</a>
+        <a href="#approach">Approach</a>
+        <a href="#model">Model</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-meta">
+        &copy; 2026 Meridian Capital Partners<br>
+        meridiancp.com
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
