@@ -21,3 +21,5 @@
 node_modules/
 dist/
 .cache/
+blackrock_sample
+petey-system-prompt-v3.md
