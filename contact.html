@@ -622,6 +622,14 @@
       .m-footer-grid { grid-template-columns: 1fr; gap: 32px; }
       .m-footer-bottom-row { flex-direction: column; gap: 8px; }
     }
+
+    /* ========== PENDING LINKS ========== */
+    a[data-status="pending"] {
+      opacity: 0.5;
+      cursor: default;
+      pointer-events: none;
+    }
+    a[data-status="pending"]:hover { opacity: 0.5; }
   </style>
 </head>
 <body>
@@ -653,7 +661,7 @@
         <a href="index.html#team">Team</a>
         <a href="index.html#press">Press</a>
       </div>
-      <a href="contact.html" class="m-nav-cta" aria-current="page">Contact Us</a>
+      <a href="contact.html" class="m-nav-cta" aria-current="page">Request Consultation</a>
     </div>
   </nav>
 
@@ -880,35 +888,35 @@
         </div>
         <p class="m-footer-tagline">Blockchain forensics and asset recovery. From on-chain trace to courtroom to victim.</p>
         <div class="m-footer-social">
-          <a href="#">LinkedIn</a>
+          <a href="#" aria-disabled="true" data-status="pending">LinkedIn</a>
         </div>
       </div>
       <div>
         <div class="m-footer-col-label">Services</div>
         <div class="m-footer-links">
-          <a href="#">Transaction Tracing</a>
-          <a href="#">Asset Recovery</a>
-          <a href="#">Forensic Reports</a>
-          <a href="#">Civil Recovery Strategy</a>
-          <a href="#">Compliance Advisory</a>
+          <a href="#" aria-disabled="true" data-status="pending">Transaction Tracing</a>
+          <a href="#" aria-disabled="true" data-status="pending">Asset Recovery</a>
+          <a href="#" aria-disabled="true" data-status="pending">Forensic Reports</a>
+          <a href="#" aria-disabled="true" data-status="pending">Civil Recovery Strategy</a>
+          <a href="#" aria-disabled="true" data-status="pending">Compliance Advisory</a>
         </div>
       </div>
       <div>
         <div class="m-footer-col-label">Company</div>
         <div class="m-footer-links">
-          <a href="#">About</a>
-          <a href="#">Case Outcomes</a>
-          <a href="#">Partners</a>
-          <a href="#">Insights</a>
+          <a href="#" aria-disabled="true" data-status="pending">About</a>
+          <a href="index.html#outcomes">Case Outcomes</a>
+          <a href="index.html#partners">Partners</a>
+          <a href="#" aria-disabled="true" data-status="pending">Insights</a>
           <a href="contact.html">Contact</a>
         </div>
       </div>
       <div>
         <div class="m-footer-col-label">Legal</div>
         <div class="m-footer-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
-          <a href="#">Disclosures</a>
+          <a href="#" aria-disabled="true" data-status="pending">Privacy Policy</a>
+          <a href="#" aria-disabled="true" data-status="pending">Terms of Use</a>
+          <a href="#" aria-disabled="true" data-status="pending">Disclosures</a>
         </div>
       </div>
     </div>

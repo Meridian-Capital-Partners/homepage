@@ -1153,6 +1153,264 @@
       .m-footer-grid { grid-template-columns: 1fr; gap: 32px; }
       .m-footer-bottom-row { flex-direction: column; gap: 8px; }
     }
+
+    /* ========== TRUST BAND ========== */
+    .m-trust-band {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 16px var(--pad-h);
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .m-trust-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray);
+      white-space: nowrap;
+    }
+    .m-trust-dot {
+      width: 4px;
+      height: 4px;
+      background: var(--red);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ========== TEAM ========== */
+    .m-team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .m-team-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+    }
+    .m-team-avatar {
+      width: 56px;
+      height: 56px;
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-dk);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .m-team-role {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+    .m-team-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .m-team-bio {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.75;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    .m-team-quals { list-style: none; }
+    .m-team-quals li {
+      font-size: 10px;
+      color: var(--gray);
+      letter-spacing: 0.06em;
+      padding: 7px 0;
+      border-top: 1px solid var(--border);
+      line-height: 1.4;
+    }
+    .m-team-quals li:last-child { border-bottom: 1px solid var(--border); }
+    .m-team-note {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray-dk);
+      font-style: italic;
+    }
+
+    /* ========== CTA REFERRAL NOTE ========== */
+    .m-referral-note {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--gray);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      line-height: 1.7;
+    }
+    .m-referral-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    @media (max-width: 1024px) {
+      .m-team-grid { grid-template-columns: 1fr 1fr; }
+      .m-trust-band { gap: 20px; }
+    }
+    @media (max-width: 640px) {
+      .m-team-grid { grid-template-columns: 1fr; }
+      .m-trust-item { white-space: normal; }
+    }
+
+    /* ========== PENDING LINKS ========== */
+    a[data-status="pending"] {
+      opacity: 0.5;
+      cursor: default;
+      pointer-events: none;
+    }
+    a[data-status="pending"]:hover { opacity: 0.5; }
+
+    /* ========== PARTNER REDACTED PILL ========== */
+    .m-partner-redacted {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1A1A1A;
+      border: 1px solid #2E2E2E;
+      padding: 3px 10px 3px 8px;
+      font-size: 10px;
+      font-weight: 500;
+      font-style: normal;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-dk);
+      border-radius: 2px;
+    }
+
+    /* ========== FEATURED PRESS CARDS ========== */
+    .m-media-card.is-featured-card {
+      border-top: 2px solid var(--red);
+      background: #272727;
+    }
+    .m-media-card.is-featured-card .m-media-pub {
+      font-size: 18px;
+      letter-spacing: 0.02em;
+    }
+    .m-media-card.is-featured-card .m-media-quote {
+      color: var(--white);
+      font-size: 14px;
+    }
+    .m-media-card.is-featured-card .m-media-tier {
+      color: var(--red);
+    }
+
+    /* ========== OUTCOMES GRID ========== */
+    .m-outcomes-header {
+      padding: 56px 48px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .m-outcomes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .m-outcome-card {
+      padding: 40px 36px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .m-outcome-card:last-child { border-right: none; }
+    .m-outcome-status {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+    .m-outcome-amount {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 52px;
+      font-weight: 400;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .m-outcome-type {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--gray-lt);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .m-outcome-pending {
+      color: var(--gray-dk);
+      font-style: italic;
+    }
+    .m-outcome-callout {
+      background: var(--black);
+      border-left: 3px solid var(--gray-dk);
+      padding: 14px 16px;
+      margin-top: auto;
+      margin-bottom: 0;
+    }
+    .m-outcome-callout-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 12px;
+      color: var(--gray-lt);
+      line-height: 1.6;
+    }
+    .m-outcomes-footer {
+      padding: 24px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .m-case-nda-note {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray-dk);
+      font-style: italic;
+    }
+
+    @media (max-width: 1024px) {
+      .m-outcomes-header { padding: 48px var(--pad-h-md) 32px; }
+      .m-outcomes-footer { padding: 20px var(--pad-h-md); }
+      .m-outcomes-grid { grid-template-columns: 1fr; }
+      .m-outcome-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .m-outcome-card:last-child { border-bottom: none; }
+    }
+    @media (max-width: 640px) {
+      .m-outcomes-header { padding: 40px var(--pad-h-sm) 28px; }
+      .m-outcomes-footer { padding: 20px var(--pad-h-sm); flex-direction: column; align-items: flex-start; }
+      .m-outcome-amount { font-size: 40px; }
+    }
   </style>
 </head>
 <body>
@@ -1180,9 +1438,10 @@
         <a href="#services">Services</a>
         <a href="#outcomes">Outcomes</a>
         <a href="#partners">Partners</a>
+        <a href="#team">Team</a>
         <a href="#press">Press</a>
       </div>
-      <button class="m-nav-cta">Contact Us</button>
+      <a href="contact.html" class="m-nav-cta">Request Consultation</a>
     </div>
   </nav>
 
@@ -1195,7 +1454,7 @@
       <p class="m-hero-sub">Blockchain transactions are permanent, public, and traceable. Stolen funds sit in wallets, move through exchanges, and wait in cold storage. Meridian Capital Partners owns every link in the chain from on-chain trace to courtroom to victim.</p>
       <div class="m-hero-italic">We find it. We freeze it. We bring it home.</div>
       <div class="m-btn-group">
-        <button class="m-btn-primary">Request a Consultation</button>
+        <a href="contact.html" class="m-btn-primary">Request a Consultation</a>
         <!-- Anchor navigates to section — semantically a link, not a button -->
         <a href="#outcomes" class="m-btn-ghost">View Case Outcomes</a>
       </div>
@@ -1217,6 +1476,14 @@
       </table>
       <a href="#outcomes" class="m-snapshot-link">View full case →</a>
     </div>
+  </div>
+
+  <!-- TRUST BAND: engagement principles -->
+  <div class="m-trust-band m-constrain">
+    <div class="m-trust-item"><span class="m-trust-dot"></span>All consultations confidential — mutual NDA available at intake</div>
+    <div class="m-trust-item"><span class="m-trust-dot"></span>We work with individuals, families, and institutions of any size</div>
+    <div class="m-trust-item"><span class="m-trust-dot"></span>No obligation initial assessment</div>
+    <div class="m-trust-item"><span class="m-trust-dot"></span>Response within 24 hours</div>
   </div>
 
   <!-- STAT BAND: dark bg panel, constrained + side borders -->
@@ -1278,7 +1545,7 @@
           <li>Exchange identification and KYC correlation</li>
           <li>Court-admissible transaction graph documentation</li>
         </ul>
-        <a href="#" class="m-card-link">View service →</a>
+        <a href="#" class="m-card-link" aria-disabled="true" data-status="pending">View service →</a>
       </div>
 
       <div class="m-card">
@@ -1291,7 +1558,7 @@
           <li>Law enforcement referral and coordination</li>
           <li>Multi-jurisdictional enforcement strategy</li>
         </ul>
-        <a href="#" class="m-card-link">View service →</a>
+        <a href="#" class="m-card-link" aria-disabled="true" data-status="pending">View service →</a>
       </div>
 
       <div class="m-card">
@@ -1304,7 +1571,7 @@
           <li>Expert witness coordination and support</li>
           <li>Norwich Pharmacal order documentation</li>
         </ul>
-        <a href="#" class="m-card-link">View service →</a>
+        <a href="#" class="m-card-link" aria-disabled="true" data-status="pending">View service →</a>
       </div>
 
       <div class="m-card">
@@ -1317,7 +1584,7 @@
           <li>Incident response and regulatory disclosure</li>
           <li>Ongoing compliance advisory support</li>
         </ul>
-        <a href="#" class="m-card-link">View service →</a>
+        <a href="#" class="m-card-link" aria-disabled="true" data-status="pending">View service →</a>
       </div>
 
     </div>
@@ -1369,31 +1636,60 @@
 
   <!-- CASE OUTCOME: dark bg panel, constrained + side borders -->
   <div class="m-case-section m-constrain" id="outcomes">
-    <div class="m-case">
-      <div class="m-case-left">
-        <div class="m-eyebrow">03 — Featured Outcome</div>
-        <div class="m-red-rule"></div>
-        <div class="m-big-num">$2.3M</div>
-        <div class="m-big-sub">recovered from a DeFi protocol exploit across four EVM chains</div>
-        <div class="m-stat-italic">Zero analytics firms attempted recovery.<br>We did it in eleven weeks.</div>
-      </div>
-      <div class="m-case-right">
-        <div class="m-eyebrow">Case Detail</div>
+    <div class="m-outcomes-header">
+      <div class="m-eyebrow">03 — Case Outcomes</div>
+      <div class="m-red-rule"></div>
+      <h2 class="m-section-title">Recovery matters<br>on the record.</h2>
+    </div>
+    <div class="m-outcomes-grid">
+
+      <div class="m-outcome-card">
+        <div class="m-outcome-status">Matter Closed — Recovered</div>
+        <div class="m-outcome-amount">$2.3M</div>
+        <div class="m-outcome-type">DeFi protocol exploit across four EVM chains</div>
         <table class="m-meta-table">
+          <tr><td class="m-meta-key">Client Type</td><td class="m-meta-val">Institutional Fund</td></tr>
           <tr><td class="m-meta-key">Asset Type</td><td class="m-meta-val">ETH / Stablecoins</td></tr>
           <tr><td class="m-meta-key">Recovery Range</td><td class="m-meta-val">$2.1M – $2.4M</td></tr>
           <tr><td class="m-meta-key">Timeline</td><td class="m-meta-val">11 weeks</td></tr>
-          <tr><td class="m-meta-key">Wallets Traced</td><td class="m-meta-val">23 intermediate</td></tr>
           <tr><td class="m-meta-key">Jurisdictions</td><td class="m-meta-val">US, Cayman, Singapore</td></tr>
-          <tr><td class="m-meta-key">Freeze Order</td><td class="m-meta-val">72 hours post-engagement</td></tr>
+          <tr><td class="m-meta-key">Freeze Order</td><td class="m-meta-val">72 hrs post-engagement</td></tr>
         </table>
-        <div class="m-callout">
-          <div class="m-callout-text">"Identify wallets. Can't litigate. Can't seize. Report goes in a drawer." That is where other firms stop. Meridian does not stop there.</div>
-        </div>
-        <div style="margin-top: 28px;">
-          <a href="#" class="m-section-link">View all case outcomes →</a>
+        <div class="m-outcome-callout">
+          <div class="m-outcome-callout-text">"Zero analytics firms attempted recovery. We did it in eleven weeks."</div>
         </div>
       </div>
+
+      <div class="m-outcome-card">
+        <div class="m-outcome-status">Matter Closed — Recovered</div>
+        <div class="m-outcome-amount m-outcome-pending">$[REDACTED]</div>
+        <div class="m-outcome-type">Pig butchering scheme — multi-platform</div>
+        <table class="m-meta-table">
+          <tr><td class="m-meta-key">Client Type</td><td class="m-meta-val">Institutional Fund</td></tr>
+          <tr><td class="m-meta-key">Asset Type</td><td class="m-meta-val m-outcome-pending">[PENDING]</td></tr>
+          <tr><td class="m-meta-key">Recovery Range</td><td class="m-meta-val m-outcome-pending">$[REDACTED]</td></tr>
+          <tr><td class="m-meta-key">Timeline</td><td class="m-meta-val m-outcome-pending">[PENDING]</td></tr>
+          <tr><td class="m-meta-key">Jurisdictions</td><td class="m-meta-val m-outcome-pending">[PENDING]</td></tr>
+        </table>
+      </div>
+
+      <div class="m-outcome-card">
+        <div class="m-outcome-status">Matter Closed — Recovered</div>
+        <div class="m-outcome-amount m-outcome-pending">$[REDACTED]</div>
+        <div class="m-outcome-type">Romance fraud — cross-chain asset movement</div>
+        <table class="m-meta-table">
+          <tr><td class="m-meta-key">Client Type</td><td class="m-meta-val">Individual Victim</td></tr>
+          <tr><td class="m-meta-key">Asset Type</td><td class="m-meta-val m-outcome-pending">[PENDING]</td></tr>
+          <tr><td class="m-meta-key">Recovery Range</td><td class="m-meta-val m-outcome-pending">$[REDACTED]</td></tr>
+          <tr><td class="m-meta-key">Timeline</td><td class="m-meta-val m-outcome-pending">[PENDING]</td></tr>
+          <tr><td class="m-meta-key">Jurisdictions</td><td class="m-meta-val m-outcome-pending">[PENDING]</td></tr>
+        </table>
+      </div>
+
+    </div>
+    <div class="m-outcomes-footer">
+      <p class="m-case-nda-note">Additional case details available under NDA</p>
+      <a href="#" class="m-section-link" aria-disabled="true" data-status="pending">View all case outcomes →</a>
     </div>
   </div>
 
@@ -1409,46 +1705,84 @@
       <div class="m-partner-cat">
         <div class="m-partner-cat-label">Litigation Partners</div>
         <ul class="m-partner-list">
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">International asset recovery litigation</span></li>
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">US federal civil proceedings</span></li>
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Cayman and BVI injunction practice</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">International asset recovery litigation</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">US federal civil proceedings</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">Cayman and BVI injunction practice</span></li>
         </ul>
       </div>
       <div class="m-partner-cat">
         <div class="m-partner-cat-label">Forensic Intelligence</div>
         <ul class="m-partner-list">
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">On-chain tracing infrastructure</span></li>
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Darknet and mixer attribution</span></li>
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Cross-chain bridge analysis</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">On-chain tracing infrastructure</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">Darknet and mixer attribution</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">Cross-chain bridge analysis</span></li>
         </ul>
       </div>
       <div class="m-partner-cat">
         <div class="m-partner-cat-label">Exchange Network</div>
         <ul class="m-partner-list">
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Freeze coordination MOU, Tier 1</span></li>
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Freeze coordination MOU, Tier 1</span></li>
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Freeze coordination MOU, Tier 2</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">Freeze coordination MOU, Tier 1</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">Freeze coordination MOU, Tier 1</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">Freeze coordination MOU, Tier 2</span></li>
         </ul>
       </div>
       <div class="m-partner-cat">
         <div class="m-partner-cat-label">Law Enforcement</div>
         <ul class="m-partner-list">
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Referral protocol, US federal</span></li>
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Referral protocol, EU</span></li>
-          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Referral protocol, APAC</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">Referral protocol, US federal</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">Referral protocol, EU</span></li>
+          <li><span class="m-partner-redacted"><svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="5" width="8" height="7" rx="1" stroke="#555555" stroke-width="1"/><path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="#555555" stroke-width="1" fill="none"/></svg>Confidential</span><span class="m-partner-role">Referral protocol, APAC</span></li>
         </ul>
       </div>
     </div>
 
     <div class="m-partner-footer">
       <p class="m-partner-note">Partner identities are disclosed under NDA at the appropriate stage of engagement.</p>
-      <a href="#" class="m-section-link">Discuss our network →</a>
+      <a href="#" class="m-section-link" aria-disabled="true" data-status="pending">Discuss our network →</a>
     </div>
+  </div>
+
+  <!-- TEAM: bg = body black, constrained -->
+  <div class="m-section m-constrain" id="team">
+    <div class="m-eyebrow">05 — Leadership</div>
+    <div class="m-red-rule"></div>
+    <h2 class="m-section-title">The principals<br>behind the work.</h2>
+    <hr class="m-rule-thin">
+    <div class="m-team-grid">
+
+      <div class="m-team-card">
+        <div class="m-team-avatar">CEO</div>
+        <div class="m-team-role">Chief Executive Officer</div>
+        <div class="m-team-name">[Name Withheld]</div>
+        <p class="m-team-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+        <ul class="m-team-quals">
+          <li>Former [Federal Agency] — [Division], [X] years</li>
+          <li>J.D., [Law School]; admitted in [X] jurisdictions</li>
+          <li>[X] years complex financial litigation and cross-border enforcement</li>
+          <li>Led recoveries across [X]+ matters exceeding $[X]M in aggregate</li>
+        </ul>
+      </div>
+
+      <div class="m-team-card">
+        <div class="m-team-avatar">CIO</div>
+        <div class="m-team-role">Chief Investigations Officer</div>
+        <div class="m-team-name">[Name Withheld]</div>
+        <p class="m-team-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+        <ul class="m-team-quals">
+          <li>Former [Blockchain Analytics Firm] — Senior Investigator, [X] years</li>
+          <li>Certified Cryptocurrency Investigator (CCI)</li>
+          <li>On-chain forensic analysis across BTC, ETH, EVM, Solana, Tron</li>
+          <li>Expert witness accepted in [X] federal and international proceedings</li>
+        </ul>
+      </div>
+
+    </div>
+    <p class="m-team-note">Principal identities are disclosed under mutual NDA at the appropriate stage of engagement.</p>
   </div>
 
   <!-- PRESS: bg = body black, constrained -->
   <div class="m-section m-constrain" id="press">
-    <div class="m-eyebrow">05 — Press</div>
+    <div class="m-eyebrow">06 — Press</div>
     <div class="m-red-rule"></div>
     <h2 class="m-section-title">Meridian in the press.</h2>
     <hr class="m-rule-thin">
@@ -1456,33 +1790,33 @@
     <div class="m-media-outer" id="mediaOuter">
       <div class="m-media-track" id="mediaTrack">
 
-        <div class="m-media-card">
+        <div class="m-media-card is-featured-card">
           <div class="m-media-tier is-featured">Featured</div>
           <div class="m-media-pub">The Wall Street Journal</div>
           <div class="m-media-quote">"Meridian Capital Partners has emerged as one of the only firms capable of taking a blockchain trace all the way through to a court-ordered asset freeze."</div>
           <div class="m-media-meta">
             <span class="m-media-date">Feb 2026</span>
-            <a href="#" class="m-media-read">Read →</a>
+            <a href="#" class="m-media-read" aria-disabled="true" data-status="pending">Read →</a>
           </div>
         </div>
 
-        <div class="m-media-card">
+        <div class="m-media-card is-featured-card">
           <div class="m-media-tier is-featured">Featured</div>
           <div class="m-media-pub">Bloomberg Law</div>
           <div class="m-media-quote">"As pig butchering losses top $75 billion, a new class of recovery firm is quietly building the infrastructure law enforcement lacks."</div>
           <div class="m-media-meta">
             <span class="m-media-date">Jan 2026</span>
-            <a href="#" class="m-media-read">Read →</a>
+            <a href="#" class="m-media-read" aria-disabled="true" data-status="pending">Read →</a>
           </div>
         </div>
 
         <div class="m-media-card">
-          <div class="m-media-tier is-featured">Featured</div>
+          <div class="m-media-tier">Coverage</div>
           <div class="m-media-pub">Reuters</div>
           <div class="m-media-quote">"The firm's eleven-week recovery of $2.3 million from a cross-chain DeFi exploit drew attention from prosecutors and regulators who called the forensic package unusually thorough."</div>
           <div class="m-media-meta">
             <span class="m-media-date">Dec 2025</span>
-            <a href="#" class="m-media-read">Read →</a>
+            <a href="#" class="m-media-read" aria-disabled="true" data-status="pending">Read →</a>
           </div>
         </div>
 
@@ -1492,7 +1826,7 @@
           <div class="m-media-quote">"Crypto recovery has long been treated as a dead end. Meridian is building the argument that it does not have to be."</div>
           <div class="m-media-meta">
             <span class="m-media-date">Nov 2025</span>
-            <a href="#" class="m-media-read">Read →</a>
+            <a href="#" class="m-media-read" aria-disabled="true" data-status="pending">Read →</a>
           </div>
         </div>
 
@@ -1502,7 +1836,7 @@
           <div class="m-media-quote">"Where analytics firms stop at the wallet, Meridian keeps going through the courtroom. That distinction is why victims are starting to get money back."</div>
           <div class="m-media-meta">
             <span class="m-media-date">Oct 2025</span>
-            <a href="#" class="m-media-read">Read →</a>
+            <a href="#" class="m-media-read" aria-disabled="true" data-status="pending">Read →</a>
           </div>
         </div>
 
@@ -1512,7 +1846,7 @@
           <div class="m-media-quote">"Meridian's forensic reports have been accepted in three federal proceedings this year. The firm's methodology has not been successfully challenged on evidentiary grounds."</div>
           <div class="m-media-meta">
             <span class="m-media-date">Sep 2025</span>
-            <a href="#" class="m-media-read">Read →</a>
+            <a href="#" class="m-media-read" aria-disabled="true" data-status="pending">Read →</a>
           </div>
         </div>
 
@@ -1532,12 +1866,15 @@
   <div class="m-cta-band m-constrain">
     <div class="m-cta-italic">The stolen funds are still moving.</div>
     <h2 class="m-cta-headline">Talk to the recovery team</h2>
-    <p class="m-cta-sub">Initial consultations are confidential. Bring what you have — we will determine what is traceable.</p>
+    <p class="m-cta-sub">All consultations are treated as confidential from first contact. A mutual NDA is available at intake on request. Bring what you have — we will assess what is recoverable and advise on the path forward at no obligation.</p>
     <div class="m-cta-buttons">
-      <button class="m-btn-primary">Request a Consultation</button>
+      <a href="contact.html" class="m-btn-primary">Request a Consultation</a>
       <button class="m-btn-ghost">Download Capabilities Overview</button>
     </div>
-    <p class="m-cta-contact">Confidential &nbsp;·&nbsp; 24-hour response &nbsp;·&nbsp; <a href="mailto:info@meridiancp.com">info@meridiancp.com</a></p>
+    <p class="m-cta-contact"><a href="mailto:info@meridiancap.org">info@meridiancap.org</a> &nbsp;·&nbsp; 24-hour response</p>
+    <div class="m-referral-note">
+      <span class="m-referral-label">Referring a client?</span> Attorneys, family offices, and wealth advisors are welcome to contact us directly. We work with referring counsel on matter structure, engagement terms, and privilege protocols from first contact.
+    </div>
   </div>
 
   <!-- FOOTER: bg = body black, constrained -->
@@ -1553,35 +1890,35 @@
         </div>
         <p class="m-footer-tagline">Blockchain forensics and asset recovery. From on-chain trace to courtroom to victim.</p>
         <div class="m-footer-social">
-          <a href="#">LinkedIn</a>
+          <a href="#" aria-disabled="true" data-status="pending">LinkedIn</a>
         </div>
       </div>
       <div>
         <div class="m-footer-col-label">Services</div>
         <div class="m-footer-links">
-          <a href="#">Transaction Tracing</a>
-          <a href="#">Asset Recovery</a>
-          <a href="#">Forensic Reports</a>
-          <a href="#">Civil Recovery Strategy</a>
-          <a href="#">Compliance Advisory</a>
+          <a href="#" aria-disabled="true" data-status="pending">Transaction Tracing</a>
+          <a href="#" aria-disabled="true" data-status="pending">Asset Recovery</a>
+          <a href="#" aria-disabled="true" data-status="pending">Forensic Reports</a>
+          <a href="#" aria-disabled="true" data-status="pending">Civil Recovery Strategy</a>
+          <a href="#" aria-disabled="true" data-status="pending">Compliance Advisory</a>
         </div>
       </div>
       <div>
         <div class="m-footer-col-label">Company</div>
         <div class="m-footer-links">
-          <a href="#">About</a>
-          <a href="#">Case Outcomes</a>
-          <a href="#">Partners</a>
-          <a href="#">Insights</a>
-          <a href="#">Contact</a>
+          <a href="#" aria-disabled="true" data-status="pending">About</a>
+          <a href="#outcomes">Case Outcomes</a>
+          <a href="#partners">Partners</a>
+          <a href="#" aria-disabled="true" data-status="pending">Insights</a>
+          <a href="contact.html">Contact</a>
         </div>
       </div>
       <div>
         <div class="m-footer-col-label">Legal</div>
         <div class="m-footer-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
-          <a href="#">Disclosures</a>
+          <a href="#" aria-disabled="true" data-status="pending">Privacy Policy</a>
+          <a href="#" aria-disabled="true" data-status="pending">Terms of Use</a>
+          <a href="#" aria-disabled="true" data-status="pending">Disclosures</a>
         </div>
       </div>
     </div>
@@ -1610,7 +1947,7 @@
     });
 
     // ── NAV: scroll-spy ────────────────────────────────────────────────────
-    const spySections = document.querySelectorAll('#problem, #services, #outcomes, #partners, #press');
+    const spySections = document.querySelectorAll('#problem, #services, #outcomes, #partners, #team, #press');
     const spyLinks    = document.querySelectorAll('.m-nav-links a');
 
     const spyObserver = new IntersectionObserver((entries) => {
@@ -1630,7 +1967,7 @@
       const target   = parseInt(el.dataset.count, 10);
       const prefix   = el.dataset.prefix || '';
       const suffix   = el.dataset.suffix || '';
-      const duration = 1200;
+      const duration = 1500;
       const startTs  = performance.now();
 
       function tick(now) {
@@ -1638,7 +1975,7 @@
         const progress = Math.min(elapsed / duration, 1);
         const eased    = 1 - Math.pow(1 - progress, 3);
         const current  = Math.round(eased * target);
-        el.textContent = prefix + current + suffix;
+        el.textContent = prefix + current + (progress === 1 ? suffix : '');
         if (progress < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
