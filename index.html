@@ -11,18 +11,25 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Smooth scrolling for all anchor navigation */
+    html { scroll-behavior: smooth; }
+
     /* ========== BRAND TOKENS ========== */
     :root {
-      --black:   #0D0D0D;
-      --dark:    #1A1A1A;
-      --panel:   #222222;
-      --border:  #2E2E2E;
-      --red:     #C41E3A;
-      --white:   #FFFFFF;
-      --gray-lt: #CCCCCC;
-      --gray:    #888888;
-      --gray-dk: #555555;
-      --cream:   #F5F4F0;
+      --black:     #0D0D0D;
+      --dark:      #1A1A1A;
+      --panel:     #222222;
+      --border:    #2E2E2E;
+      --red:       #C41E3A;
+      --white:     #FFFFFF;
+      --gray-lt:   #CCCCCC;
+      --gray:      #888888;
+      --gray-dk:   #555555;
+      --cream:     #F5F4F0;
+      --max-w:     1280px;
+      --pad-h:     80px;   /* horizontal padding at desktop */
+      --pad-h-md:  40px;   /* horizontal padding at tablet */
+      --pad-h-sm:  20px;   /* horizontal padding at mobile */
     }
 
     body {
@@ -34,24 +41,59 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* ========== GLOBAL FOCUS STYLES ========== */
+    :focus-visible {
+      outline: 2px solid var(--red);
+      outline-offset: 3px;
+    }
+
+    /* ========== MAX-WIDTH SYSTEM ========== */
+    /*
+      Layout pattern:
+      - Nav: full-bleed outer, constrained inner (.m-nav-inner)
+      - Sections on black bg (matches body): max-width on the section itself
+      - Sections on dark bg (--dark): max-width on the section itself;
+        side borders mark the panel edge on wide screens
+    */
+
+    /* Constrains any section or container to the site max-width */
+    .m-constrain {
+      max-width: var(--max-w);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     /* ========== NAV ========== */
+    /* Nav outer stays full-bleed — standard pattern for sticky nav bars */
     .m-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 48px;
-      height: 60px;
       background: var(--black);
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
+      transition: box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .m-nav.is-scrolled {
+      background: rgba(13, 13, 13, 0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Inner wrapper constrains nav content */
+    .m-nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad-h);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .m-nav-lockup { display: flex; align-items: center; gap: 22px; }
-
     .m-nav-sep { width: 1px; height: 40px; background: var(--border); flex-shrink: 0; }
-
     .m-nav-text { display: flex; flex-direction: column; gap: 4px; }
 
     .m-nav-name {
@@ -64,7 +106,6 @@
     }
 
     .m-nav-sub {
-      font-family: 'Inter', sans-serif;
       font-size: 9.5px;
       font-weight: 300;
       letter-spacing: 0.24em;
@@ -82,13 +123,25 @@
       color: var(--gray);
       text-decoration: none;
       transition: color 0.15s ease;
+      position: relative;
     }
-    .m-nav-links a:hover { color: var(--white); }
+    .m-nav-links a:hover,
+    .m-nav-links a.is-active { color: var(--white); }
+
+    .m-nav-links a.is-active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--red);
+    }
 
     .m-nav-cta {
+      background: var(--red);
+      color: var(--white);
       border: 1px solid var(--red);
-      color: var(--red);
-      background: transparent;
       padding: 10px 20px;
       font-family: 'Inter', sans-serif;
       font-size: 10px;
@@ -96,9 +149,9 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
-    .m-nav-cta:hover { background: var(--red); color: var(--black); }
+    .m-nav-cta:hover { background: #a01830; border-color: #a01830; }
 
     .m-nav-toggle {
       display: none;
@@ -111,9 +164,8 @@
     }
     .m-nav-toggle span { display: block; width: 20px; height: 1px; background: var(--gray); }
 
-    /* ========== SHARED ========== */
+    /* ========== SHARED ELEMENTS ========== */
     .m-eyebrow {
-      font-family: 'Inter', sans-serif;
       font-size: 10px;
       font-weight: 500;
       letter-spacing: 0.18em;
@@ -144,7 +196,8 @@
       line-height: 1.15;
     }
 
-    .m-card-link {
+    .m-card-link,
+    .m-section-link {
       font-size: 10px;
       font-weight: 500;
       letter-spacing: 0.12em;
@@ -154,13 +207,14 @@
       display: inline-block;
       transition: opacity 0.15s ease;
     }
-    .m-card-link:hover { opacity: 0.7; }
+    .m-card-link:hover,
+    .m-section-link:hover { opacity: 0.7; }
 
     /* ========== BUTTONS ========== */
     .m-btn-primary {
       background: var(--red);
       color: var(--white);
-      border: none;
+      border: 1px solid var(--red);
       padding: 14px 32px;
       font-family: 'Inter', sans-serif;
       font-size: 10px;
@@ -169,15 +223,16 @@
       text-transform: uppercase;
       cursor: pointer;
       display: inline-block;
-      transition: background 0.15s ease;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
-    .m-btn-primary:hover { background: #a01830; }
+    .m-btn-primary:hover { background: #a01830; border-color: #a01830; }
 
+    /* Ghost button: padding matches primary for even pairing */
     .m-btn-ghost {
       border: 1px solid var(--red);
       color: var(--red);
       background: transparent;
-      padding: 13px 28px;
+      padding: 14px 32px;
       font-family: 'Inter', sans-serif;
       font-size: 10px;
       font-weight: 500;
@@ -185,16 +240,31 @@
       text-transform: uppercase;
       cursor: pointer;
       display: inline-block;
-      margin-left: 12px;
       transition: background 0.15s ease, color 0.15s ease;
+      text-decoration: none;
     }
     .m-btn-ghost:hover { background: var(--red); color: var(--white); }
 
+    .m-btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
     /* ========== HERO ========== */
+    /*
+      Background matches body (--black) so no full-bleed wrapper needed.
+      .m-constrain centers the hero grid within the page.
+    */
     .m-hero {
-      padding: 88px 80px 80px;
+      display: grid;
+      grid-template-columns: 1fr min(380px, 32%);
+      gap: 64px;
+      padding: 88px var(--pad-h) 80px;
       border-left: 3px solid var(--red);
       background: var(--black);
+      align-items: start;
     }
 
     .m-display {
@@ -223,17 +293,105 @@
       margin-bottom: 40px;
     }
 
+    /* Hero right-panel snapshot */
+    .m-hero-snapshot {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--red);
+      padding: 28px;
+    }
+
+    .m-snapshot-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .m-snapshot-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    .m-snapshot-status {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-dk);
+    }
+
+    /* Snapshot number smaller than hero headline to avoid hierarchy conflict */
+    .m-snapshot-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 40px;
+      font-weight: 400;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .m-snapshot-desc {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .m-snapshot-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    .m-snapshot-table tr { border-bottom: 1px solid var(--border); }
+    .m-snapshot-table tr:last-child { border-bottom: none; }
+    .m-snapshot-table td { padding: 9px 0; font-size: 10px; }
+    .m-snapshot-key {
+      color: var(--gray-dk);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      width: 48%;
+    }
+    .m-snapshot-val { color: var(--gray-lt); font-weight: 300; text-align: right; }
+
+    .m-snapshot-link {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      text-decoration: none;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      display: block;
+      transition: opacity 0.15s ease;
+    }
+    .m-snapshot-link:hover { opacity: 0.7; }
+
     /* ========== STAT BAND ========== */
+    /*
+      Dark background section — constrained with side borders so the
+      panel reads as intentional on wide screens rather than clipped.
+    */
     .m-stat-band {
       background: var(--dark);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      border: 1px solid var(--border);
       display: grid;
       grid-template-columns: repeat(4, 1fr);
     }
 
-    .m-stat { padding: 40px 36px; border-right: 1px solid var(--border); }
+    .m-stat {
+      padding: 40px 36px;
+      border-right: 1px solid var(--border);
+      text-decoration: none;
+      display: block;
+      transition: background 0.15s ease;
+    }
     .m-stat:last-child { border-right: none; }
+    .m-stat:hover { background: rgba(196, 30, 58, 0.04); }
 
     .m-stat-num {
       font-family: 'Playfair Display', Georgia, serif;
@@ -252,9 +410,91 @@
       color: var(--gray);
     }
 
-    /* ========== SECTION WRAPPER ========== */
-    .m-section { padding: 80px; border-left: 3px solid var(--red); }
-    .m-section-dk { background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    /* ========== SECTION WRAPPERS ========== */
+    /*
+      .m-section: used for content sections on --black background.
+      Constrained via .m-constrain.
+      Side borders implied by left rule only.
+    */
+    .m-section {
+      padding: 80px var(--pad-h);
+      border-left: 3px solid var(--red);
+    }
+
+    /*
+      Dark background panels — constrained + explicit side borders.
+    */
+    .m-section-dk {
+      background: var(--dark);
+      border: 1px solid var(--border);
+    }
+
+    /* Case outcome section: dark bg panel, no left rule (full-split layout) */
+    .m-case-section {
+      background: var(--dark);
+      border: 1px solid var(--border);
+    }
+
+    /* ========== THE PROBLEM ========== */
+    .m-problem {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      border-left: 3px solid var(--red);
+    }
+
+    .m-problem-left {
+      padding: 56px 48px;
+      border-right: 1px solid var(--border);
+    }
+
+    .m-problem-right {
+      padding: 56px 48px;
+      display: flex;
+      align-items: center;
+    }
+
+    .m-impact-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 72px;
+      font-weight: 400;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .m-impact-sub {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-lt);
+      margin-top: 12px;
+      max-width: 320px;
+    }
+
+    .m-problem-italic {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 28px;
+      color: var(--gray);
+      line-height: 1.4;
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+    }
+
+    .m-problem-body {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.75;
+      margin-top: 20px;
+      max-width: 360px;
+    }
+
+    .m-problem-cta {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
 
     /* ========== SERVICES ========== */
     .m-card-grid {
@@ -304,10 +544,11 @@
       margin-bottom: 20px;
     }
 
+    /* Lifted from --gray-dk to --gray for WCAG AA contrast on --panel bg */
     .m-card-caps li {
       font-size: 10px;
       font-weight: 400;
-      color: var(--gray-dk);
+      color: var(--gray);
       letter-spacing: 0.06em;
       padding: 7px 0;
       border-top: 1px solid var(--border);
@@ -323,33 +564,42 @@
       padding: 36px 40px;
     }
 
+    .m-pathway-header {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
     .m-pathway-label {
       font-size: 10px;
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--red);
-      margin-bottom: 28px;
+    }
+
+    .m-pathway-intro {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray);
     }
 
     .m-pathway-steps {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 0;
+      display: flex;
+      align-items: flex-start;
     }
 
-    .m-pathway-step { position: relative; padding-right: 24px; }
-    .m-pathway-step:last-child { padding-right: 0; }
+    .m-pathway-step { flex: 1; }
 
-    .m-pathway-step::after {
-      content: '→';
-      position: absolute;
-      right: 4px;
-      top: 6px;
-      color: var(--gray-dk);
+    .m-pathway-sep {
+      flex-shrink: 0;
       font-size: 12px;
+      color: var(--gray-dk);
+      padding: 4px 8px;
+      margin-top: 2px;
+      user-select: none;
     }
-    .m-pathway-step:last-child::after { display: none; }
 
     .m-pathway-step-num {
       font-family: 'Playfair Display', Georgia, serif;
@@ -437,61 +687,6 @@
       line-height: 1.6;
     }
 
-    /* ========== THE PROBLEM ========== */
-    .m-problem {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background: var(--black);
-      border-top: 1px solid var(--border);
-      border-left: 3px solid var(--red);
-    }
-
-    .m-problem-left {
-      padding: 64px 56px;
-      border-right: 1px solid var(--border);
-    }
-
-    .m-problem-right {
-      padding: 64px 56px;
-      display: flex;
-      align-items: center;
-    }
-
-    .m-impact-num {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 72px;
-      font-weight: 400;
-      color: var(--red);
-      line-height: 1;
-    }
-
-    .m-impact-sub {
-      font-size: 14px;
-      font-weight: 300;
-      color: var(--gray-lt);
-      margin-top: 12px;
-      max-width: 320px;
-    }
-
-    .m-problem-italic {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-style: italic;
-      font-size: 28px;
-      color: var(--gray);
-      line-height: 1.4;
-      border-top: 1px solid var(--border);
-      padding-top: 28px;
-    }
-
-    .m-problem-body {
-      font-size: 13px;
-      font-weight: 300;
-      color: var(--gray);
-      line-height: 1.75;
-      margin-top: 20px;
-      max-width: 360px;
-    }
-
     /* ========== PARTNERSHIPS ========== */
     .m-partner-intro {
       font-size: 13px;
@@ -499,13 +694,13 @@
       color: var(--gray);
       line-height: 1.75;
       max-width: 600px;
-      margin-bottom: 0;
     }
 
     .m-partner-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid var(--border);
+      border: 1px solid var(--border);
+      border-bottom: none;
       margin-top: 40px;
     }
 
@@ -528,25 +723,38 @@
     .m-partner-list { list-style: none; }
 
     .m-partner-list li {
-      font-size: 11px;
-      font-weight: 400;
-      color: var(--gray-lt);
       padding: 10px 0;
       border-bottom: 1px solid var(--border);
       line-height: 1.4;
     }
     .m-partner-list li:first-child { border-top: 1px solid var(--border); }
 
-    .m-partner-list span {
+    .m-partner-name {
+      font-size: 11px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--gray);
+    }
+
+    .m-partner-role {
       display: block;
       font-size: 9.5px;
       font-weight: 300;
-      color: var(--gray);
+      color: var(--gray-dk);
       margin-top: 3px;
+      letter-spacing: 0.04em;
+    }
+
+    .m-partner-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
     }
 
     .m-partner-note {
-      margin-top: 28px;
       font-size: 11px;
       font-weight: 300;
       color: var(--gray-dk);
@@ -554,11 +762,16 @@
     }
 
     /* ========== MEDIA MENTIONS ========== */
-    .m-media-wrapper {
-      position: relative;
+    /*
+      border-top: none on the outer — the .m-rule-thin above provides
+      the visual top boundary. margin-top: 0 so only the rule's
+      margin-bottom creates the 40px gap (not 80px double-gap).
+    */
+    .m-media-outer {
+      border: 1px solid var(--border);
+      border-top: none;
+      margin-top: 0;
       overflow: hidden;
-      border-top: 1px solid var(--border);
-      margin-top: 40px;
     }
 
     .m-media-track {
@@ -569,22 +782,31 @@
     .m-media-card {
       flex: 0 0 calc(33.333%);
       min-width: calc(33.333%);
-      border: 1px solid var(--border);
-      border-top: none;
-      border-left: none;
+      border-right: 1px solid var(--border);
+      border-top: 1px solid var(--border);
       background: var(--panel);
-      padding: 36px 32px;
+      padding: 32px 28px;
       display: flex;
       flex-direction: column;
     }
-    .m-media-card:first-child { border-left: 1px solid var(--border); }
+    .m-media-card:last-child { border-right: none; }
+
+    .m-media-tier {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gray-dk);
+      margin-bottom: 12px;
+    }
+    .m-media-tier.is-featured { color: var(--red); }
 
     .m-media-pub {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: 15px;
       font-weight: 400;
       color: var(--white);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       letter-spacing: 0.04em;
     }
 
@@ -603,7 +825,7 @@
       justify-content: space-between;
       align-items: center;
       border-top: 1px solid var(--border);
-      padding-top: 16px;
+      padding-top: 14px;
       margin-top: auto;
     }
 
@@ -626,12 +848,27 @@
     }
     .m-media-read:hover { opacity: 0.7; }
 
-    .m-media-controls {
+    .m-media-nav {
       display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-top: 20px;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
     }
+
+    .m-media-dots { display: flex; gap: 8px; align-items: center; }
+
+    .m-dot {
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--gray-dk);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      padding: 0;
+    }
+    .m-dot.is-active { background: var(--red); border-color: var(--red); }
+
+    .m-media-controls { display: flex; gap: 8px; }
 
     .m-media-btn {
       background: transparent;
@@ -649,10 +886,11 @@
     .m-media-btn:hover { border-color: var(--red); color: var(--red); }
 
     /* ========== CTA BAND ========== */
+    /* Dark bg panel — constrained + side borders */
     .m-cta-band {
       background: var(--dark);
-      border-top: 1px solid var(--border);
-      padding: 72px 80px;
+      border: 1px solid var(--border);
+      padding: 72px var(--pad-h);
       text-align: center;
     }
 
@@ -676,30 +914,37 @@
       font-size: 13px;
       font-weight: 300;
       color: var(--gray);
-      margin-bottom: 36px;
+      margin-bottom: 32px;
     }
 
-    .m-btn-ghost-center {
-      border: 1px solid var(--red);
-      color: var(--red);
-      background: transparent;
-      padding: 13px 28px;
-      font-family: 'Inter', sans-serif;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      cursor: pointer;
-      display: inline-block;
-      transition: background 0.15s ease, color 0.15s ease;
+    .m-cta-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
     }
-    .m-btn-ghost-center:hover { background: var(--red); color: var(--white); }
+
+    .m-cta-contact {
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-dk);
+    }
+
+    .m-cta-contact a {
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .m-cta-contact a:hover { color: var(--white); }
 
     /* ========== FOOTER ========== */
     .m-footer {
       background: var(--black);
       border-top: 1px solid var(--border);
-      padding: 56px 80px 32px;
+      padding: 56px var(--pad-h) 32px;
     }
 
     .m-footer-grid {
@@ -708,6 +953,46 @@
       gap: 40px;
       margin-bottom: 48px;
     }
+
+    .m-footer-lockup {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .m-footer-wordmark {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 13px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .m-footer-tagline {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.75;
+      max-width: 260px;
+      margin-top: 8px;
+      margin-bottom: 16px;
+    }
+
+    .m-footer-social { display: flex; gap: 12px; }
+
+    .m-footer-social a {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-dk);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+    .m-footer-social a:hover { color: var(--white); border-color: var(--gray-dk); }
 
     .m-footer-col-label {
       font-size: 10px;
@@ -729,20 +1014,15 @@
     }
     .m-footer-links a:hover { color: var(--white); }
 
-    .m-footer-tagline {
-      font-size: 11px;
-      font-weight: 300;
-      color: var(--gray);
-      line-height: 1.75;
-      max-width: 260px;
-      margin-top: 8px;
-    }
-
     .m-footer-bottom {
       border-top: 1px solid var(--border);
       padding-top: 24px;
+    }
+
+    .m-footer-bottom-row {
       display: flex;
       justify-content: space-between;
+      margin-bottom: 12px;
     }
 
     .m-footer-legal {
@@ -752,9 +1032,26 @@
       text-transform: uppercase;
     }
 
+    /* Lifted to --gray so regulatory text passes WCAG AA contrast */
+    .m-footer-disclosure {
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.6;
+      max-width: 800px;
+      letter-spacing: 0.02em;
+    }
+
+    /* Vertical spacing between constrained sections */
+    .m-section-gap { height: 0; }
+
     /* ========== RESPONSIVE: TABLET (<=1024px) ========== */
     @media (max-width: 1024px) {
-      .m-nav { padding: 0 32px; }
+      :root {
+        --pad-h: var(--pad-h-md);
+      }
+
+      .m-nav-inner { padding: 0 var(--pad-h-md); }
       .m-nav-links { display: none; }
       .m-nav-links.is-open {
         display: flex;
@@ -765,13 +1062,16 @@
         right: 0;
         background: var(--black);
         border-bottom: 1px solid var(--border);
-        padding: 24px 32px;
+        padding: 24px var(--pad-h-md);
         gap: 20px;
         z-index: 99;
       }
       .m-nav-toggle { display: flex; }
 
-      .m-hero { padding: 60px 40px; }
+      .m-hero {
+        grid-template-columns: 1fr;
+        padding: 60px var(--pad-h-md);
+      }
       .m-display { font-size: 40px; }
 
       .m-stat-band { grid-template-columns: repeat(2, 1fr); }
@@ -779,136 +1079,190 @@
       .m-stat:nth-child(3) { border-top: 1px solid var(--border); }
       .m-stat:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
 
-      .m-section { padding: 60px 40px; }
-
-      .m-card-grid { grid-template-columns: repeat(2, 1fr); }
-
-      .m-pathway-steps { grid-template-columns: repeat(3, 1fr); gap: 28px; }
-      .m-pathway-step::after { display: none; }
-      .m-pathway-step { padding-right: 0; }
-
-      .m-case { grid-template-columns: 1fr; }
-      .m-case-left { border-right: none; border-bottom: 1px solid var(--border); }
+      .m-section { padding: 60px var(--pad-h-md); }
+      .m-cta-band { padding: 60px var(--pad-h-md); }
+      .m-footer { padding: 48px var(--pad-h-md) 32px; }
 
       .m-problem { grid-template-columns: 1fr; }
       .m-problem-left { border-right: none; border-bottom: 1px solid var(--border); }
 
+      .m-card-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .m-pathway-steps { flex-wrap: wrap; gap: 20px; }
+      .m-pathway-step { flex: 0 0 calc(33.333% - 14px); }
+      .m-pathway-sep { display: none; }
+
+      .m-case { grid-template-columns: 1fr; }
+      .m-case-left { border-right: none; border-bottom: 1px solid var(--border); }
+
       .m-partner-grid { grid-template-columns: repeat(2, 1fr); }
       .m-partner-cat:nth-child(2) { border-right: none; }
-      .m-partner-cat:nth-child(3) { border-bottom: none; }
-      .m-partner-cat:nth-child(4) { border-right: none; border-bottom: none; }
 
       .m-media-card { flex: 0 0 50%; min-width: 50%; }
 
-      .m-cta-band { padding: 60px 40px; }
-      .m-footer { padding: 48px 40px 32px; }
       .m-footer-grid { grid-template-columns: 1fr 1fr; }
     }
 
     /* ========== RESPONSIVE: MOBILE (<=640px) ========== */
     @media (max-width: 640px) {
-      .m-nav { padding: 0 20px; }
+      :root {
+        --pad-h: var(--pad-h-sm);
+      }
+
+      .m-nav-inner { padding: 0 var(--pad-h-sm); }
       .m-nav-cta { display: none; }
       .m-nav-links.is-open { padding: 20px; }
 
-      .m-hero { padding: 48px 20px; border-left-width: 2px; }
+      .m-hero {
+        grid-template-columns: 1fr;
+        padding: 48px var(--pad-h-sm);
+        border-left-width: 2px;
+      }
       .m-display { font-size: 32px; }
       .m-hero-sub { font-size: 13px; }
-      .m-btn-ghost { display: block; margin-left: 0; margin-top: 12px; text-align: center; }
-      .m-btn-primary { display: block; text-align: center; }
+      .m-hero-snapshot { display: none; }
+      .m-btn-group { flex-direction: column; }
+      .m-btn-primary, .m-btn-ghost { text-align: center; }
 
-      .m-section { padding: 48px 20px; border-left-width: 2px; }
+      .m-section { padding: 48px var(--pad-h-sm); border-left-width: 2px; }
 
-      .m-card-grid { grid-template-columns: 1fr; }
-
-      .m-pathway { padding: 28px 20px; }
-      .m-pathway-steps { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-
-      .m-case-left, .m-case-right { padding: 40px 20px; }
-      .m-big-num { font-size: 60px; }
-
-      .m-problem-left, .m-problem-right { padding: 48px 20px; }
       .m-problem { border-left-width: 2px; }
+      .m-problem-left, .m-problem-right { padding: 48px var(--pad-h-sm); }
       .m-impact-num { font-size: 56px; }
       .m-problem-italic { font-size: 22px; }
 
+      .m-card-grid { grid-template-columns: 1fr; }
+
+      .m-pathway { padding: 28px var(--pad-h-sm); }
+      .m-pathway-steps { flex-wrap: wrap; gap: 20px; }
+      .m-pathway-step { flex: 0 0 calc(50% - 10px); }
+
+      .m-case-left, .m-case-right { padding: 40px var(--pad-h-sm); }
+      .m-big-num { font-size: 60px; }
+
       .m-partner-grid { grid-template-columns: 1fr; }
       .m-partner-cat { border-right: none; }
-      .m-partner-cat:last-child { border-bottom: none; }
 
       .m-media-card { flex: 0 0 100%; min-width: 100%; }
 
-      .m-cta-band { padding: 48px 20px; }
+      .m-cta-band { padding: 48px var(--pad-h-sm); }
       .m-cta-headline { font-size: 26px; }
+      .m-cta-buttons { flex-direction: column; align-items: center; }
 
-      .m-footer { padding: 40px 20px 24px; }
+      .m-footer { padding: 40px var(--pad-h-sm) 24px; }
       .m-footer-grid { grid-template-columns: 1fr; gap: 32px; }
-      .m-footer-bottom { flex-direction: column; gap: 8px; }
+      .m-footer-bottom-row { flex-direction: column; gap: 8px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="m-nav">
-    <div class="m-nav-lockup">
-      <svg width="32" height="44" viewBox="0 0 52 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="26" cy="36" r="22" stroke="#C41E3A" stroke-width="1.5"/>
-        <line x1="26" y1="0" x2="26" y2="72" stroke="#C41E3A" stroke-width="1.5"/>
-      </svg>
-      <div class="m-nav-sep"></div>
-      <div class="m-nav-text">
-        <span class="m-nav-name">Meridian</span>
-        <span class="m-nav-sub">Capital Partners</span>
+  <!-- NAV: full-bleed outer, constrained inner -->
+  <nav class="m-nav" id="nav">
+    <div class="m-nav-inner">
+      <div class="m-nav-lockup">
+        <svg width="32" height="44" viewBox="0 0 52 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="26" cy="36" r="22" stroke="#C41E3A" stroke-width="1.5"/>
+          <line x1="26" y1="0" x2="26" y2="72" stroke="#C41E3A" stroke-width="1.5"/>
+        </svg>
+        <div class="m-nav-sep"></div>
+        <div class="m-nav-text">
+          <span class="m-nav-name">Meridian</span>
+          <span class="m-nav-sub">Capital Partners</span>
+        </div>
       </div>
+      <button class="m-nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <!-- div + role="navigation" avoids nested <nav> elements -->
+      <div class="m-nav-links" id="navLinks" role="navigation" aria-label="Primary navigation">
+        <a href="#problem">The Problem</a>
+        <a href="#services">Services</a>
+        <a href="#outcomes">Outcomes</a>
+        <a href="#partners">Partners</a>
+        <a href="#press">Press</a>
+      </div>
+      <button class="m-nav-cta">Contact Us</button>
     </div>
-    <button class="m-nav-toggle" id="navToggle" aria-label="Toggle navigation">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="m-nav-links" id="navLinks">
-      <a href="#">Services</a>
-      <a href="#">Outcomes</a>
-      <a href="#">Partners</a>
-      <a href="#">About</a>
-      <a href="#">Insights</a>
-    </div>
-    <button class="m-nav-cta">Contact Us</button>
   </nav>
 
-  <!-- HERO -->
-  <div class="m-hero">
-    <div class="m-eyebrow">Blockchain Forensics · Asset Recovery · Global Enforcement</div>
-    <h1 class="m-display">Infrastructure<br>for Justice<br>at Scale</h1>
-    <div class="m-red-rule"></div>
-    <p class="m-hero-sub">Blockchain transactions are permanent, public, and traceable. Stolen funds sit in wallets, move through exchanges, and wait in cold storage. Meridian Capital Partners owns every link in the chain from on-chain trace to courtroom to victim.</p>
-    <div class="m-hero-italic">We find it. We freeze it. We bring it home.</div>
-    <button class="m-btn-primary">Request a Consultation</button>
-    <button class="m-btn-ghost">View Case Outcomes</button>
+  <!-- HERO: bg = body black, constrained via m-constrain -->
+  <div class="m-hero m-constrain">
+    <div class="m-hero-content">
+      <div class="m-eyebrow">Blockchain Forensics · Asset Recovery · Global Enforcement</div>
+      <h1 class="m-display">Infrastructure<br>for Justice<br>at Scale</h1>
+      <div class="m-red-rule"></div>
+      <p class="m-hero-sub">Blockchain transactions are permanent, public, and traceable. Stolen funds sit in wallets, move through exchanges, and wait in cold storage. Meridian Capital Partners owns every link in the chain from on-chain trace to courtroom to victim.</p>
+      <div class="m-hero-italic">We find it. We freeze it. We bring it home.</div>
+      <div class="m-btn-group">
+        <button class="m-btn-primary">Request a Consultation</button>
+        <!-- Anchor navigates to section — semantically a link, not a button -->
+        <a href="#outcomes" class="m-btn-ghost">View Case Outcomes</a>
+      </div>
+    </div>
+
+    <div class="m-hero-snapshot">
+      <div class="m-snapshot-header">
+        <span class="m-snapshot-label">Recent Matter</span>
+        <span class="m-snapshot-status">Closed — Recovered</span>
+      </div>
+      <div class="m-snapshot-num">$2.3M</div>
+      <div class="m-snapshot-desc">DeFi protocol exploit across four EVM chains</div>
+      <table class="m-snapshot-table">
+        <tr><td class="m-snapshot-key">Asset Type</td><td class="m-snapshot-val">ETH / Stablecoins</td></tr>
+        <tr><td class="m-snapshot-key">Timeline</td><td class="m-snapshot-val">11 weeks</td></tr>
+        <tr><td class="m-snapshot-key">First Freeze</td><td class="m-snapshot-val">72 hrs post-engagement</td></tr>
+        <tr><td class="m-snapshot-key">Wallets Traced</td><td class="m-snapshot-val">23 intermediate</td></tr>
+        <tr><td class="m-snapshot-key">Jurisdictions</td><td class="m-snapshot-val">US, Cayman, Singapore</td></tr>
+      </table>
+      <a href="#outcomes" class="m-snapshot-link">View full case →</a>
+    </div>
   </div>
 
-  <!-- STAT BAND -->
-  <div class="m-stat-band">
-    <div class="m-stat">
-      <div class="m-stat-num">$47M+</div>
+  <!-- STAT BAND: dark bg panel, constrained + side borders -->
+  <div class="m-stat-band m-constrain" id="stats">
+    <a href="#outcomes" class="m-stat">
+      <div class="m-stat-num" data-count="47" data-prefix="$" data-suffix="M+">$47M+</div>
       <div class="m-stat-label">Assets Recovered</div>
-    </div>
-    <div class="m-stat">
-      <div class="m-stat-num">200+</div>
+    </a>
+    <a href="#outcomes" class="m-stat">
+      <div class="m-stat-num" data-count="200" data-suffix="+">200+</div>
       <div class="m-stat-label">Cases Resolved</div>
-    </div>
-    <div class="m-stat">
-      <div class="m-stat-num">18</div>
+    </a>
+    <a href="#partners" class="m-stat">
+      <div class="m-stat-num" data-count="18">18</div>
       <div class="m-stat-label">Jurisdictions</div>
-    </div>
-    <div class="m-stat">
-      <div class="m-stat-num">94%</div>
+    </a>
+    <a href="#services" class="m-stat">
+      <div class="m-stat-num" data-count="94" data-suffix="%">94%</div>
       <div class="m-stat-label">Trace Success Rate</div>
+    </a>
+  </div>
+
+  <!-- THE PROBLEM: bg = body black, constrained -->
+  <div id="problem">
+    <div class="m-problem m-constrain">
+      <div class="m-problem-left">
+        <div class="m-eyebrow">01 — The Problem</div>
+        <div class="m-red-rule"></div>
+        <div class="m-impact-num">$75B</div>
+        <div class="m-impact-sub">stolen from Americans through pig butchering scams alone</div>
+      </div>
+      <div class="m-problem-right">
+        <div>
+          <div class="m-problem-italic">Zero returned to victims.</div>
+          <p class="m-problem-body">Law enforcement lacks the forensic infrastructure. Analytics firms can trace but cannot recover. Law firms litigate but do not trace. Meridian is built to do all three.</p>
+          <div class="m-problem-cta">
+            <a href="#services" class="m-section-link">See how Meridian changes that →</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- SERVICES -->
-  <div class="m-section">
-    <div class="m-eyebrow">01 — Core Services</div>
+  <!-- SERVICES: bg = body black, constrained -->
+  <div class="m-section m-constrain" id="services">
+    <div class="m-eyebrow">02 — Core Services</div>
     <div class="m-red-rule"></div>
     <h2 class="m-section-title">One machine.<br>Blockchain to courtroom to victim.</h2>
     <hr class="m-rule-thin">
@@ -968,35 +1322,42 @@
 
     </div>
 
-    <!-- Recovery Pathway -->
     <div class="m-pathway">
-      <div class="m-pathway-label">The Recovery Pathway</div>
+      <div class="m-pathway-header">
+        <span class="m-pathway-label">The Recovery Pathway</span>
+        <span class="m-pathway-intro">How a matter moves from first contact to funds returned.</span>
+      </div>
       <div class="m-pathway-steps">
         <div class="m-pathway-step">
           <div class="m-pathway-step-num">01</div>
           <div class="m-pathway-step-title">Engagement</div>
           <div class="m-pathway-step-desc">Scope the incident. Define recoverable assets. Confirm jurisdiction.</div>
         </div>
+        <span class="m-pathway-sep" aria-hidden="true">→</span>
         <div class="m-pathway-step">
           <div class="m-pathway-step-num">02</div>
           <div class="m-pathway-step-title">On-Chain Trace</div>
           <div class="m-pathway-step-desc">Map all transactions from theft event to current wallet position.</div>
         </div>
+        <span class="m-pathway-sep" aria-hidden="true">→</span>
         <div class="m-pathway-step">
           <div class="m-pathway-step-num">03</div>
           <div class="m-pathway-step-title">Entity Attribution</div>
           <div class="m-pathway-step-desc">Identify exchanges, custodians, and real-world actors holding assets.</div>
         </div>
+        <span class="m-pathway-sep" aria-hidden="true">→</span>
         <div class="m-pathway-step">
           <div class="m-pathway-step-num">04</div>
           <div class="m-pathway-step-title">Legal Package</div>
           <div class="m-pathway-step-desc">Deliver court-admissible forensic report and freeze order brief.</div>
         </div>
+        <span class="m-pathway-sep" aria-hidden="true">→</span>
         <div class="m-pathway-step">
           <div class="m-pathway-step-num">05</div>
           <div class="m-pathway-step-title">Asset Freeze</div>
           <div class="m-pathway-step-desc">Execute exchange freeze requests and injunction filings across jurisdictions.</div>
         </div>
+        <span class="m-pathway-sep" aria-hidden="true">→</span>
         <div class="m-pathway-step">
           <div class="m-pathway-step-num">06</div>
           <div class="m-pathway-step-title">Repatriation</div>
@@ -1006,18 +1367,18 @@
     </div>
   </div>
 
-  <!-- CASE OUTCOME -->
-  <div class="m-section-dk" style="border-left: none;">
+  <!-- CASE OUTCOME: dark bg panel, constrained + side borders -->
+  <div class="m-case-section m-constrain" id="outcomes">
     <div class="m-case">
       <div class="m-case-left">
-        <div class="m-eyebrow">02 — Featured Outcome</div>
+        <div class="m-eyebrow">03 — Featured Outcome</div>
         <div class="m-red-rule"></div>
         <div class="m-big-num">$2.3M</div>
         <div class="m-big-sub">recovered from a DeFi protocol exploit across four EVM chains</div>
         <div class="m-stat-italic">Zero analytics firms attempted recovery.<br>We did it in eleven weeks.</div>
       </div>
       <div class="m-case-right">
-        <div class="m-eyebrow" style="margin-bottom: 20px;">Case Detail</div>
+        <div class="m-eyebrow">Case Detail</div>
         <table class="m-meta-table">
           <tr><td class="m-meta-key">Asset Type</td><td class="m-meta-val">ETH / Stablecoins</td></tr>
           <tr><td class="m-meta-key">Recovery Range</td><td class="m-meta-val">$2.1M – $2.4M</td></tr>
@@ -1029,87 +1390,74 @@
         <div class="m-callout">
           <div class="m-callout-text">"Identify wallets. Can't litigate. Can't seize. Report goes in a drawer." That is where other firms stop. Meridian does not stop there.</div>
         </div>
-        <div style="margin-top: 28px;"><a href="#" class="m-card-link">View all case outcomes →</a></div>
+        <div style="margin-top: 28px;">
+          <a href="#" class="m-section-link">View all case outcomes →</a>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- THE PROBLEM -->
-  <div class="m-problem">
-    <div class="m-problem-left">
-      <div class="m-eyebrow" style="margin-bottom: 20px;">03 — The Problem</div>
-      <div class="m-red-rule"></div>
-      <div class="m-impact-num">$75B</div>
-      <div class="m-impact-sub">stolen from Americans through pig butchering scams alone</div>
-    </div>
-    <div class="m-problem-right">
-      <div>
-        <div class="m-problem-italic">Zero returned to victims.</div>
-        <p class="m-problem-body">Law enforcement lacks the forensic infrastructure. Analytics firms can trace but cannot recover. Law firms litigate but do not trace. Meridian is built to do all three.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- PARTNERSHIPS -->
-  <div class="m-section m-section-dk">
+  <!-- PARTNERSHIPS: dark bg panel, constrained + side borders -->
+  <div class="m-section m-section-dk m-constrain" id="partners">
     <div class="m-eyebrow">04 — Partners</div>
     <div class="m-red-rule"></div>
     <h2 class="m-section-title">The network that makes<br>recovery possible.</h2>
     <hr class="m-rule-thin">
     <p class="m-partner-intro">Recovery does not happen in isolation. Meridian operates through a network of litigation partners, forensic intelligence providers, exchange relationships, and law enforcement contacts across 18 jurisdictions. Each relationship is governed by formal coordination agreements and tested in live recovery matters.</p>
-    <div class="m-partner-grid">
 
+    <div class="m-partner-grid">
       <div class="m-partner-cat">
         <div class="m-partner-cat-label">Litigation Partners</div>
         <ul class="m-partner-list">
-          <li>[Law Firm A] <span>International asset recovery litigation</span></li>
-          <li>[Law Firm B] <span>US federal civil proceedings</span></li>
-          <li>[Law Firm C] <span>Cayman and BVI injunction practice</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">International asset recovery litigation</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">US federal civil proceedings</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Cayman and BVI injunction practice</span></li>
         </ul>
       </div>
-
       <div class="m-partner-cat">
         <div class="m-partner-cat-label">Forensic Intelligence</div>
         <ul class="m-partner-list">
-          <li>[Analytics Partner A] <span>On-chain tracing infrastructure</span></li>
-          <li>[Analytics Partner B] <span>Darknet and mixer attribution</span></li>
-          <li>[Analytics Partner C] <span>Cross-chain bridge analysis</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">On-chain tracing infrastructure</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Darknet and mixer attribution</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Cross-chain bridge analysis</span></li>
         </ul>
       </div>
-
       <div class="m-partner-cat">
         <div class="m-partner-cat-label">Exchange Network</div>
         <ul class="m-partner-list">
-          <li>[Exchange A] <span>Freeze coordination MOU, Tier 1</span></li>
-          <li>[Exchange B] <span>Freeze coordination MOU, Tier 1</span></li>
-          <li>[Exchange C] <span>Freeze coordination MOU, Tier 2</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Freeze coordination MOU, Tier 1</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Freeze coordination MOU, Tier 1</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Freeze coordination MOU, Tier 2</span></li>
         </ul>
       </div>
-
       <div class="m-partner-cat">
         <div class="m-partner-cat-label">Law Enforcement</div>
         <ul class="m-partner-list">
-          <li>[Agency A] <span>Referral protocol, US federal</span></li>
-          <li>[Agency B] <span>Referral protocol, EU</span></li>
-          <li>[Agency C] <span>Referral protocol, APAC</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Referral protocol, US federal</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Referral protocol, EU</span></li>
+          <li><span class="m-partner-name">Confidential</span><span class="m-partner-role">Referral protocol, APAC</span></li>
         </ul>
       </div>
-
     </div>
-    <p class="m-partner-note">Partner names are disclosed under NDA. Contact us to discuss coordination on your matter.</p>
+
+    <div class="m-partner-footer">
+      <p class="m-partner-note">Partner identities are disclosed under NDA at the appropriate stage of engagement.</p>
+      <a href="#" class="m-section-link">Discuss our network →</a>
+    </div>
   </div>
 
-  <!-- MEDIA MENTIONS -->
-  <div class="m-section">
+  <!-- PRESS: bg = body black, constrained -->
+  <div class="m-section m-constrain" id="press">
     <div class="m-eyebrow">05 — Press</div>
     <div class="m-red-rule"></div>
     <h2 class="m-section-title">Meridian in the press.</h2>
     <hr class="m-rule-thin">
 
-    <div class="m-media-wrapper" id="mediaWrapper">
+    <div class="m-media-outer" id="mediaOuter">
       <div class="m-media-track" id="mediaTrack">
 
         <div class="m-media-card">
+          <div class="m-media-tier is-featured">Featured</div>
           <div class="m-media-pub">The Wall Street Journal</div>
           <div class="m-media-quote">"Meridian Capital Partners has emerged as one of the only firms capable of taking a blockchain trace all the way through to a court-ordered asset freeze."</div>
           <div class="m-media-meta">
@@ -1119,6 +1467,7 @@
         </div>
 
         <div class="m-media-card">
+          <div class="m-media-tier is-featured">Featured</div>
           <div class="m-media-pub">Bloomberg Law</div>
           <div class="m-media-quote">"As pig butchering losses top $75 billion, a new class of recovery firm is quietly building the infrastructure law enforcement lacks."</div>
           <div class="m-media-meta">
@@ -1128,6 +1477,7 @@
         </div>
 
         <div class="m-media-card">
+          <div class="m-media-tier is-featured">Featured</div>
           <div class="m-media-pub">Reuters</div>
           <div class="m-media-quote">"The firm's eleven-week recovery of $2.3 million from a cross-chain DeFi exploit drew attention from prosecutors and regulators who called the forensic package unusually thorough."</div>
           <div class="m-media-meta">
@@ -1137,6 +1487,7 @@
         </div>
 
         <div class="m-media-card">
+          <div class="m-media-tier">Coverage</div>
           <div class="m-media-pub">Financial Times</div>
           <div class="m-media-quote">"Crypto recovery has long been treated as a dead end. Meridian is building the argument that it does not have to be."</div>
           <div class="m-media-meta">
@@ -1146,6 +1497,7 @@
         </div>
 
         <div class="m-media-card">
+          <div class="m-media-tier">Coverage</div>
           <div class="m-media-pub">CoinDesk</div>
           <div class="m-media-quote">"Where analytics firms stop at the wallet, Meridian keeps going through the courtroom. That distinction is why victims are starting to get money back."</div>
           <div class="m-media-meta">
@@ -1155,6 +1507,7 @@
         </div>
 
         <div class="m-media-card">
+          <div class="m-media-tier">Coverage</div>
           <div class="m-media-pub">Law360</div>
           <div class="m-media-quote">"Meridian's forensic reports have been accepted in three federal proceedings this year. The firm's methodology has not been successfully challenged on evidentiary grounds."</div>
           <div class="m-media-meta">
@@ -1166,32 +1519,42 @@
       </div>
     </div>
 
-    <div class="m-media-controls">
-      <button class="m-media-btn" id="mediaPrev">&#8592;</button>
-      <button class="m-media-btn" id="mediaNext">&#8594;</button>
+    <div class="m-media-nav">
+      <div class="m-media-dots" id="mediaDots"></div>
+      <div class="m-media-controls">
+        <button class="m-media-btn" id="mediaPrev" aria-label="Previous slide">&#8592;</button>
+        <button class="m-media-btn" id="mediaNext" aria-label="Next slide">&#8594;</button>
+      </div>
     </div>
   </div>
 
-  <!-- CTA BAND -->
-  <div class="m-cta-band">
+  <!-- CTA BAND: dark bg panel, constrained + side borders -->
+  <div class="m-cta-band m-constrain">
     <div class="m-cta-italic">The stolen funds are still moving.</div>
     <h2 class="m-cta-headline">Talk to the recovery team</h2>
     <p class="m-cta-sub">Initial consultations are confidential. Bring what you have — we will determine what is traceable.</p>
-    <button class="m-btn-ghost-center">Request a Consultation</button>
+    <div class="m-cta-buttons">
+      <button class="m-btn-primary">Request a Consultation</button>
+      <button class="m-btn-ghost">Download Capabilities Overview</button>
+    </div>
+    <p class="m-cta-contact">Confidential &nbsp;·&nbsp; 24-hour response &nbsp;·&nbsp; <a href="mailto:info@meridiancp.com">info@meridiancp.com</a></p>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="m-footer">
+  <!-- FOOTER: bg = body black, constrained -->
+  <footer class="m-footer m-constrain">
     <div class="m-footer-grid">
       <div>
-        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 12px;">
-          <svg width="24" height="34" viewBox="0 0 52 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="m-footer-lockup">
+          <svg width="24" height="34" viewBox="0 0 52 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <circle cx="26" cy="36" r="22" stroke="#C41E3A" stroke-width="1.5"/>
             <line x1="26" y1="0" x2="26" y2="72" stroke="#C41E3A" stroke-width="1.5"/>
           </svg>
-          <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 13px; letter-spacing: 0.26em; text-transform: uppercase; color: #fff;">Meridian Capital Partners</span>
+          <span class="m-footer-wordmark">Meridian Capital Partners</span>
         </div>
         <p class="m-footer-tagline">Blockchain forensics and asset recovery. From on-chain trace to courtroom to victim.</p>
+        <div class="m-footer-social">
+          <a href="#">LinkedIn</a>
+        </div>
       </div>
       <div>
         <div class="m-footer-col-label">Services</div>
@@ -1223,66 +1586,154 @@
       </div>
     </div>
     <div class="m-footer-bottom">
-      <span class="m-footer-legal">© 2026 Meridian Capital Partners. All rights reserved.</span>
-      <span class="m-footer-legal">meridiancp.com</span>
+      <div class="m-footer-bottom-row">
+        <span class="m-footer-legal">© 2026 Meridian Capital Partners. All rights reserved.</span>
+        <span class="m-footer-legal">meridiancp.com</span>
+      </div>
+      <p class="m-footer-disclosure">Meridian Capital Partners LLC. Not a law firm. Recovery outcomes depend on the specific facts of each matter and are not guaranteed. Past recoveries do not predict future results. All case figures are approximate ranges pending final accounting.</p>
     </div>
   </footer>
 
   <script>
-    // Mobile nav toggle
+    // ── NAV: backdrop on scroll ────────────────────────────────────────────
+    const navEl = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      navEl.classList.toggle('is-scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // ── NAV: mobile toggle ─────────────────────────────────────────────────
     const navToggle = document.getElementById('navToggle');
     const navLinks  = document.getElementById('navLinks');
-    navToggle.addEventListener('click', () => navLinks.classList.toggle('is-open'));
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+    });
 
-    // Media carousel
-    const wrapper   = document.getElementById('mediaWrapper');
-    const track     = document.getElementById('mediaTrack');
-    const prevBtn   = document.getElementById('mediaPrev');
-    const nextBtn   = document.getElementById('mediaNext');
+    // ── NAV: scroll-spy ────────────────────────────────────────────────────
+    const spySections = document.querySelectorAll('#problem, #services, #outcomes, #partners, #press');
+    const spyLinks    = document.querySelectorAll('.m-nav-links a');
 
-    let idx = 0;
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          spyLinks.forEach(l => l.classList.remove('is-active'));
+          const match = document.querySelector(`.m-nav-links a[href="#${entry.target.id}"]`);
+          if (match) match.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
 
-    function visibleCount() {
-      const w = wrapper.offsetWidth;
+    spySections.forEach(s => spyObserver.observe(s));
+
+    // ── STAT BAND: count-up on scroll ─────────────────────────────────────
+    function animateCount(el) {
+      const target   = parseInt(el.dataset.count, 10);
+      const prefix   = el.dataset.prefix || '';
+      const suffix   = el.dataset.suffix || '';
+      const duration = 1200;
+      const startTs  = performance.now();
+
+      function tick(now) {
+        const elapsed  = now - startTs;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased    = 1 - Math.pow(1 - progress, 3);
+        const current  = Math.round(eased * target);
+        el.textContent = prefix + current + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    const statBand = document.querySelector('.m-stat-band');
+    let statsFired = false;
+    const statObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !statsFired) {
+        statsFired = true;
+        statBand.querySelectorAll('[data-count]').forEach(animateCount);
+        statObserver.disconnect();
+      }
+    }, { threshold: 0.4 });
+    if (statBand) statObserver.observe(statBand);
+
+    // ── MEDIA CAROUSEL ─────────────────────────────────────────────────────
+    const outer   = document.getElementById('mediaOuter');
+    const track   = document.getElementById('mediaTrack');
+    const dotsEl  = document.getElementById('mediaDots');
+    const prevBtn = document.getElementById('mediaPrev');
+    const nextBtn = document.getElementById('mediaNext');
+    const cards   = Array.from(track.children);
+    const total   = cards.length;
+    let idx       = 0;
+    let autoTimer;
+
+    function visCount() {
+      const w = outer.offsetWidth;
       if (w < 640)  return 1;
       if (w < 1024) return 2;
       return 3;
     }
 
-    function cardCount() { return track.children.length; }
+    function maxIdx() { return Math.max(0, total - visCount()); }
 
-    function render() {
-      const vis  = visibleCount();
-      const max  = Math.max(0, cardCount() - vis);
-      idx = Math.max(0, Math.min(idx, max));
-      const cardW = wrapper.offsetWidth / vis;
-      track.style.transform = `translateX(-${idx * cardW}px)`;
+    function buildDots() {
+      dotsEl.innerHTML = '';
+      for (let i = 0; i <= maxIdx(); i++) {
+        const dot = document.createElement('button');
+        dot.className = 'm-dot' + (i === idx ? ' is-active' : '');
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsEl.appendChild(dot);
+      }
     }
 
+    function updateDots() {
+      dotsEl.querySelectorAll('.m-dot').forEach((d, i) => {
+        d.classList.toggle('is-active', i === idx);
+      });
+    }
+
+    function render() {
+      idx = Math.max(0, Math.min(idx, maxIdx()));
+      const cardW = outer.offsetWidth / visCount();
+      track.style.transform = `translateX(-${idx * cardW}px)`;
+      updateDots();
+    }
+
+    function goTo(n) { idx = n; render(); }
+
     prevBtn.addEventListener('click', () => { idx = Math.max(0, idx - 1); render(); });
-    nextBtn.addEventListener('click', () => {
-      const max = Math.max(0, cardCount() - visibleCount());
-      idx = Math.min(max, idx + 1);
-      render();
-    });
+    nextBtn.addEventListener('click', () => { idx = Math.min(maxIdx(), idx + 1); render(); });
 
-    // Auto-advance, pause on hover
-    let timer = setInterval(() => {
-      const max = Math.max(0, cardCount() - visibleCount());
-      idx = idx >= max ? 0 : idx + 1;
-      render();
-    }, 5000);
-
-    wrapper.addEventListener('mouseenter', () => clearInterval(timer));
-    wrapper.addEventListener('mouseleave', () => {
-      timer = setInterval(() => {
-        const max = Math.max(0, cardCount() - visibleCount());
-        idx = idx >= max ? 0 : idx + 1;
+    // Touch swipe
+    let touchX = 0;
+    outer.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+    outer.addEventListener('touchend', e => {
+      const diff = touchX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 48) {
+        idx = diff > 0 ? Math.min(maxIdx(), idx + 1) : Math.max(0, idx - 1);
         render();
-      }, 5000);
+      }
     });
 
-    window.addEventListener('resize', render);
+    function startAuto() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(() => {
+        idx = idx >= maxIdx() ? 0 : idx + 1;
+        render();
+      }, 7000);
+    }
+
+    function stopAuto() { clearInterval(autoTimer); }
+
+    outer.addEventListener('mouseenter', stopAuto);
+    outer.addEventListener('mouseleave', startAuto);
+    outer.addEventListener('touchstart', stopAuto, { passive: true });
+    outer.addEventListener('touchend',   startAuto, { passive: true });
+    window.addEventListener('resize', () => { buildDots(); render(); });
+
+    buildDots();
+    render();
+    startAuto();
   </script>
 
 </body>
